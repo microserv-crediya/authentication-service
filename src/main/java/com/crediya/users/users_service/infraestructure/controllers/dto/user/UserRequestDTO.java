@@ -15,6 +15,16 @@ public class UserRequestDTO {
     private BigDecimal salarioBase;
     private LocalDate fechaNacimiento;
 
+    public UserRequestDTO(String nombres, String apellidos, String direccion, String telefono, String correoElectronico, BigDecimal salarioBase, LocalDate fechaNacimiento) {
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.correoElectronico = correoElectronico;
+        this.salarioBase = salarioBase;
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
     public void setNombres(String nombres) {   this.nombres = nombres;  }
     public void setApellidos(String apellidos) { this.apellidos = apellidos; }
     public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }

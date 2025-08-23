@@ -1,4 +1,4 @@
-package com.crediya.users.users_service.aplication.util;
+package com.crediya.users.users_service.application.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

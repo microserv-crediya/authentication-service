@@ -1,7 +1,7 @@
 package com.crediya.users.users_service.infraestructure.controllers;
 
 
-import com.crediya.users.users_service.aplication.RolService;
+import com.crediya.users.users_service.application.RolService;
 import com.crediya.users.users_service.domain.model.Rol;
 import com.crediya.users.users_service.infraestructure.controllers.dto.rol.RolRequestDTO;
 import com.crediya.users.users_service.infraestructure.controllers.dto.rol.RolResponseDTO;

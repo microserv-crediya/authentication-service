@@ -1,6 +1,5 @@
 package com.crediya.users.users_service.infraestructure.controllers;
 
-import com.crediya.users.users_service.aplication.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,7 @@
 package com.crediya.users.users_service.infraestructure.controllers;
 
 
-import com.crediya.users.users_service.aplication.UserService;
+import com.crediya.users.users_service.application.UserService;
 import com.crediya.users.users_service.domain.model.User;
 import com.crediya.users.users_service.infraestructure.controllers.dto.user.UserRequestDTO;
 import com.crediya.users.users_service.infraestructure.controllers.dto.user.UserResponseDTO;

@@ -1,6 +1,6 @@
-package com.crediya.users.users_service.aplication;
+package com.crediya.users.users_service.application;
 
-import com.crediya.users.users_service.aplication.util.EmailValidator;
+import com.crediya.users.users_service.application.util.EmailValidator;
 import com.crediya.users.users_service.domain.model.User;
 import com.crediya.users.users_service.domain.repository.UserRepositoryPort;
 import org.slf4j.Logger;
@@ -40,18 +40,22 @@ public class UserService {
     public Mono<User> createUser(User usuario) {
         log.info("*****Iniciando el registro de un nuevo usuario con correo: {}", usuario.getCorreoElectronico());
 
+        // 1. Primero, valida el usuario. El 'validatedUser' se pasará al siguiente flatMap.
         return validateUser(usuario)
-                .then(userRepositoryPort.existsByCorreoElectronico(usuario.getCorreoElectronico()))
-                .doOnError(e -> log.error("*****Error en existsByEmail: {}", e.getMessage())) // Aquí capturamos el error
-                .flatMap(exists -> {
-                    if (exists) {
-                        log.warn("*****Intento de registro con correo duplicado: {}", usuario.getCorreoElectronico());
-                        return Mono.error(new IllegalArgumentException("El correo electrónico ya está registrado."));
-                    }
-                    // Agrega un log justo antes de guardar el usuario
-                    log.info("*****Guardando usuario.");
-                    return userRepositoryPort.save(usuario);
-                });
+                .flatMap(validatedUser -> {
+                    // 2. Ahora, verifica si el correo del usuario validado ya existe.
+                    return userRepositoryPort.existsByCorreoElectronico(validatedUser.getCorreoElectronico())
+                            .flatMap(exists -> {
+                                if (exists) {
+                                    log.warn("*****Intento de registro con correo duplicado: {}", usuario.getCorreoElectronico());
+                                    return Mono.error(new IllegalArgumentException("El correo electrónico ya está registrado."));
+                                }
+                                // 3. Si el correo es único, guarda el usuario validado.
+                                log.info("*****Correo no duplicado. Guardando usuario.");
+                                return userRepositoryPort.save(validatedUser);
+                            });
+                })
+                .doOnError(e -> log.error("*****Error en el flujo de creación de usuario: {}", e.getMessage()));
     }
 
 
@@ -76,7 +80,7 @@ public class UserService {
 
 
     //Metodo privado para agrupar todas las validaciones comunes
-    private Mono<Void> validateUser(User usuario) {
+    private Mono<User> validateUser(User usuario) {
         log.debug("*****Validando usuario: {}", usuario.getCorreoElectronico());
         //1. Validación de datos a nivel de dominio
         if (!usuario.isValid()) {
@@ -93,6 +97,6 @@ public class UserService {
             return Mono.error(new IllegalArgumentException("El salario base debe ser un valor numérico entre 0 y 1.500.000."));
         }
 
-        return Mono.empty(); // Retorna un Mono vacío si todas las validaciones pasan
+        return Mono.just(usuario); // Retorna un Mono vacío si todas las validaciones pasan
     }
 }
