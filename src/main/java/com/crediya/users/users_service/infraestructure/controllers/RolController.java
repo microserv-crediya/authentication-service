@@ -3,11 +3,8 @@ package com.crediya.users.users_service.infraestructure.controllers;
 
 import com.crediya.users.users_service.aplication.RolService;
 import com.crediya.users.users_service.domain.model.Rol;
-import com.crediya.users.users_service.domain.model.User;
-import com.crediya.users.users_service.infraestructure.controllers.dto.RolRequestDTO;
-import com.crediya.users.users_service.infraestructure.controllers.dto.RolResponseDTO;
-import com.crediya.users.users_service.infraestructure.controllers.dto.UserRequestDTO;
-import com.crediya.users.users_service.infraestructure.controllers.dto.UserResponseDTO;
+import com.crediya.users.users_service.infraestructure.controllers.dto.rol.RolRequestDTO;
+import com.crediya.users.users_service.infraestructure.controllers.dto.rol.RolResponseDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
