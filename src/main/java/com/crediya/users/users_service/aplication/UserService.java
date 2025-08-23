@@ -77,6 +77,7 @@ public class UserService {
 
     //Metodo privado para agrupar todas las validaciones comunes
     private Mono<Void> validateUser(User usuario) {
+        log.debug("*****Validando usuario: {}", usuario.getCorreoElectronico());
         //1. Validación de datos a nivel de dominio
         if (!usuario.isValid()) {
             return Mono.error(new IllegalArgumentException("Datos de usuario inválidos, Los siguientes campos son obligatorios Nombres, Apellidos, Correo electronico y Salario base, ."));
