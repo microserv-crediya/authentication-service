@@ -1,9 +1,8 @@
 package com.crediya.users.users_service.infraestructure.controllers;
 
-import com.crediya.users.users_service.infraestructure.adapters.postgresql.UserRepository;
+
 import com.crediya.users.users_service.infraestructure.controllers.dto.user.UserRequestDTO;
 import com.crediya.users.users_service.infraestructure.controllers.dto.user.UserResponseDTO;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,14 +21,6 @@ class UserControllerTest {
     @Autowired
     private WebTestClient webTestClient;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @AfterEach
-    void tearDown() {
-        // Limpia la base de datos después de cada test.
-        userRepository.deleteAll().block();
-    }
 
     @Test
     void createUser_withValidData_shouldReturn201() {
