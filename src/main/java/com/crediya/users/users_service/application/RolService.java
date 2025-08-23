@@ -1,4 +1,4 @@
-package com.crediya.users.users_service.aplication;
+package com.crediya.users.users_service.application;
 
 
 import com.crediya.users.users_service.domain.model.Rol;
@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Service
