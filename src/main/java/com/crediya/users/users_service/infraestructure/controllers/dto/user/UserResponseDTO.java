@@ -1,4 +1,4 @@
-package com.crediya.users.users_service.infraestructure.controllers.dto;
+package com.crediya.users.users_service.infraestructure.controllers.dto.user;
 
 import com.crediya.users.users_service.domain.model.User;
 

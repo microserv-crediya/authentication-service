@@ -1,7 +1,6 @@
-package com.crediya.users.users_service.infraestructure.controllers.dto;
+package com.crediya.users.users_service.infraestructure.controllers.dto.rol;
 
 import com.crediya.users.users_service.domain.model.Rol;
-import com.crediya.users.users_service.domain.model.User;
 
 import java.util.UUID;
 
