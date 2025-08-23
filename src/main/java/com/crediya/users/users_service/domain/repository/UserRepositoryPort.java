@@ -8,5 +8,5 @@ import java.util.UUID;
 public interface UserRepositoryPort extends GenericRepository <User, UUID> {
 
     //Metodo específico para el dominio de Usuario
-    Mono<Boolean> existsByEmail(String correoElectronico);
+    Mono<Boolean> existsByCorreoElectronico(String correoElectronico);
 }

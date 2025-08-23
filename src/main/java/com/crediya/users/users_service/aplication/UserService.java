@@ -3,15 +3,22 @@ package com.crediya.users.users_service.aplication;
 import com.crediya.users.users_service.aplication.util.EmailValidator;
 import com.crediya.users.users_service.domain.model.User;
 import com.crediya.users.users_service.domain.repository.UserRepositoryPort;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@Service
+@Transactional // Aplica la transaccionalidad a todos los métodos del servicio
 public class UserService {
 
     private final UserRepositoryPort userRepositoryPort;
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
     public UserService(UserRepositoryPort userRepositoryPort) {
         this.userRepositoryPort = userRepositoryPort;
@@ -30,14 +37,19 @@ public class UserService {
     }
 
 
-    public Mono<User> registrarUsuario(User usuario) {
+    public Mono<User> createUser(User usuario) {
+        log.info("*****Iniciando el registro de un nuevo usuario con correo: {}", usuario.getCorreoElectronico());
 
-        return  validateUser(usuario)
-                .then(userRepositoryPort.existsByEmail(usuario.getCorreoElectronico()))
+        return validateUser(usuario)
+                .then(userRepositoryPort.existsByCorreoElectronico(usuario.getCorreoElectronico()))
+                .doOnError(e -> log.error("*****Error en existsByEmail: {}", e.getMessage())) // Aquí capturamos el error
                 .flatMap(exists -> {
                     if (exists) {
+                        log.warn("*****Intento de registro con correo duplicado: {}", usuario.getCorreoElectronico());
                         return Mono.error(new IllegalArgumentException("El correo electrónico ya está registrado."));
                     }
+                    // Agrega un log justo antes de guardar el usuario
+                    log.info("*****Guardando usuario.");
                     return userRepositoryPort.save(usuario);
                 });
     }

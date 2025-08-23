@@ -6,6 +6,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
+
 public interface  UserRepository extends R2dbcRepository<UserEntity, UUID> {
-    Mono<Boolean> findByEmail(String correoElectronico);
+    Mono<Boolean> existsByCorreoElectronico(String correoElectronico);
 }
