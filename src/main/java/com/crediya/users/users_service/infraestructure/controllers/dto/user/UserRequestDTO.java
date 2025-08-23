@@ -1,10 +1,9 @@
-package com.crediya.users.users_service.infraestructure.controllers.dto;
+package com.crediya.users.users_service.infraestructure.controllers.dto.user;
 
 import com.crediya.users.users_service.domain.model.User;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 public class UserRequestDTO {
 
