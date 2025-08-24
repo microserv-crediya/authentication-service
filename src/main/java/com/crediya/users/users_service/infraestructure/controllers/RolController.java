@@ -39,8 +39,7 @@ public class RolController {
             summary = "Crear un nuevo rol",
             description = "Registra un nuevo rol en el sistema.",
             responses = {
-                    @ApiResponse(responseCode = "201", description = "Rol creado exitosamente.",
-                            content = @Content(schema = @Schema(implementation = RolResponseDTO.class))),
+                    @ApiResponse(responseCode = "201", description = "Rol creado exitosamente.", content = @Content(schema = @Schema(implementation = RolResponseDTO.class))),
                     @ApiResponse(responseCode = "400", description = "Solicitud inválida. El rol ya existe o los datos son incorrectos.")
             }
     )
