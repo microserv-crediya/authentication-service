@@ -23,14 +23,14 @@ class UserControllerTest {
 
 
     @Test
-    void createUser_withValidData_shouldReturn201() {
+    void createUser_withValidData() {
         // Arrange: Crea un objeto DTO con los datos del nuevo usuario para la petición.
         UserRequestDTO newUserRequestDTO = new UserRequestDTO(
-                "Jhon",
-                "Caraballo",
+                "Juan",
+                "Sepulveda",
                 "Calle colombia",
                 "321234567",
-                "jhon.caraballo@example.com",
+                "juan.sepulveda@example.com",
                 new BigDecimal("1500000"),
                 LocalDate.parse("1987-10-04")
         );
@@ -52,15 +52,15 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_withInvalidEmail_shouldReturn400() {
+    void createUser_withInvalidEmail() {
         // Arrange: Crea un DTO con un correo electrónico inválido.
         UserRequestDTO newUserRequestDTO = new UserRequestDTO(
-                "Yudis",
-                "Cabarcas",
+                "Cristina",
+                "Soler",
                 "Salvador de Bahia",
                 "987654321",
-                "yudis.cabarcas", // Correo electrónico inválido
-                new BigDecimal("2000000"),
+                "cristina.soler", // Correo electrónico inválido
+                new BigDecimal("1000000"),
                 LocalDate.parse("2005-03-27")
         );
 
