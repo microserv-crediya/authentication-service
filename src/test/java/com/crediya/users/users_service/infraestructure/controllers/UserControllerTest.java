@@ -10,9 +10,12 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 import org.springframework.http.MediaType;
 import reactor.core.publisher.Mono;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -24,18 +27,18 @@ class UserControllerTest {
 
     @Test
     void createUser_withValidData() {
-        // Arrange: Crea un objeto DTO con los datos del nuevo usuario para la petición.
+        // Arrange
         UserRequestDTO newUserRequestDTO = new UserRequestDTO(
-                "Juan",
+                "Juan", // Nombre que envías
                 "Sepulveda",
                 "Calle colombia",
                 "321234567",
-                "juan.sepulveda@example.com",
+                "juan.sepulveda@example.com", // Correo que envías
                 new BigDecimal("1500000"),
                 LocalDate.parse("1987-10-04")
         );
 
-        // Act & Assert: Realiza la petición HTTP y verifica la respuesta.
+        // Act & Assert
         webTestClient.post().uri("/api/v1/usuarios")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Mono.just(newUserRequestDTO), UserRequestDTO.class)
@@ -46,10 +49,12 @@ class UserControllerTest {
                 .consumeWith(response -> {
                     UserResponseDTO responseDTO = response.getResponseBody();
                     assert responseDTO != null;
-                    assert "Jhon".equals(responseDTO.getNombres());
-                    assert "jhon.caraballo@example.com".equals(responseDTO.getCorreoElectronico());
+                    // La aserción debe coincidir con el valor de la variable `newUserRequestDTO`
+                    assertEquals("Juan", responseDTO.getNombres());
+                    assertEquals("juan.sepulveda@example.com", responseDTO.getCorreoElectronico());
                 });
     }
+
 
     @Test
     void createUser_withInvalidEmail() {
@@ -75,4 +80,88 @@ class UserControllerTest {
                 //.expectBody()
                 //.jsonPath("$.message").isEqualTo("Formato de correo electrónico inválido.");
     }
+
+    @Test
+    void createUser_withNullFields() {
+        // Arrange: Crea un DTO con campos nulos para probar validaciones @NotNull
+        UserRequestDTO invalidUserDTO = new UserRequestDTO(
+                null, // Campo nulo
+                "Caraballo",
+                "Manga Calle Real",
+                "316456789",
+                "jhon.caraballo@example.com",
+                new BigDecimal("1500000"),
+                LocalDate.parse("2000-05-10")
+        );
+
+        // Act & Assert: La petición debe fallar con 400 Bad Request
+        webTestClient.post().uri("/api/v1/usuarios")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(invalidUserDTO), UserRequestDTO.class)
+                .exchange()
+                .expectStatus().isBadRequest();
+    }
+
+    @Test
+    void createUser_withInvalidSalary() {
+        // Arrange: Crea un DTO con un salario fuera del rango permitido
+        UserRequestDTO invalidUserDTO = new UserRequestDTO(
+                "Luis",
+                "Perez",
+                "Av Siempre Viva",
+                "3101234567",
+                "luis.perez@example.com",
+                new BigDecimal("20000000"), // Salario inválido (ej. <= 0)
+                LocalDate.parse("1995-12-10")
+        );
+
+        // Act & Assert: La petición debe fallar con 400 Bad Request
+        webTestClient.post().uri("/api/v1/usuarios")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(invalidUserDTO), UserRequestDTO.class)
+                .exchange()
+                .expectStatus().isBadRequest();
+    }
+
+    @Test
+    void findUserById_found() {
+        // Arrange: Crea un usuario para asegurarte de que existe en la DB.
+        UserRequestDTO userToCreate = new UserRequestDTO(
+                "Carlos", // Nombre que envías
+                "Gomez",
+                "Calle 10",
+                "3123456789",
+                "carlos.gomez@example.com",
+                new BigDecimal("1000000"),
+                LocalDate.parse("1990-01-01")
+        );
+
+        // Simula la creación y captura del ID
+        UserResponseDTO createdUser = webTestClient.post().uri("/api/v1/usuarios")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(userToCreate), UserRequestDTO.class)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectBody(UserResponseDTO.class)
+                .returnResult().getResponseBody();
+
+        assert createdUser != null;
+        UUID userId = createdUser.getId();
+
+        // Act & Assert: Busca el usuario por el ID
+        webTestClient.get().uri("/api/v1/usuarios/{id}", userId)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(UserResponseDTO.class)
+                .consumeWith(response -> {
+                    UserResponseDTO foundUser = response.getResponseBody();
+                    assert foundUser != null;
+                    assertEquals(userId, foundUser.getId());
+                    // La aserción debe coincidir con el nombre del usuario que creaste
+                    assertEquals("Carlos", foundUser.getNombres());
+                });
+    }
+
+
+
 }
