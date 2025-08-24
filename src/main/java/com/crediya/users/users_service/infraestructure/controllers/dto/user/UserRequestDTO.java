@@ -14,8 +14,11 @@ public class UserRequestDTO {
     private String correoElectronico;
     private BigDecimal salarioBase;
     private LocalDate fechaNacimiento;
+    private String documentoIdentidad;
 
-    public UserRequestDTO(String nombres, String apellidos, String direccion, String telefono, String correoElectronico, BigDecimal salarioBase, LocalDate fechaNacimiento) {
+
+
+    public UserRequestDTO(String nombres, String apellidos, String direccion, String telefono, String correoElectronico, BigDecimal salarioBase, LocalDate fechaNacimiento, String documentoIdentidad) {
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.direccion = direccion;
@@ -23,6 +26,7 @@ public class UserRequestDTO {
         this.correoElectronico = correoElectronico;
         this.salarioBase = salarioBase;
         this.fechaNacimiento = fechaNacimiento;
+        this.documentoIdentidad = documentoIdentidad;
     }
 
     public void setNombres(String nombres) {   this.nombres = nombres;  }
@@ -32,6 +36,8 @@ public class UserRequestDTO {
     public void setTelefono(String telefono) { this.telefono = telefono; }
     public void setCorreoElectronico(String correoElectronico) { this.correoElectronico = correoElectronico; }
     public void setSalarioBase(BigDecimal salarioBase) { this.salarioBase = salarioBase;  }
+    public void setDocumentoIdentidad(String documentoIdentidad) { this.documentoIdentidad = documentoIdentidad; }
+
 
     public String getNombres() { return nombres; }
     public String getApellidos() { return apellidos; }
@@ -40,17 +46,19 @@ public class UserRequestDTO {
     public String getTelefono() { return telefono;  }
     public String getCorreoElectronico() { return correoElectronico; }
     public BigDecimal getSalarioBase() { return salarioBase; }
+    public String getDocumentoIdentidad() { return documentoIdentidad; }
 
-    // Método para convertir el DTO en un objeto de dominio
+    //Convertir el DTO en un objeto de dominio
     public User toUser() {
-        User User = new User();
-        User.setNombres(this.nombres);
-        User.setApellidos(this.apellidos);
-        User.setDireccion(this.direccion);
-        User.setTelefono(this.telefono);
-        User.setCorreoElectronico(this.correoElectronico);
-        User.setSalarioBase(this.salarioBase);
-        User.setFechaNacimiento(this.fechaNacimiento);
-        return User;
+        User user = new User();
+        user.setNombres(this.nombres);
+        user.setApellidos(this.apellidos);
+        user.setDireccion(this.direccion);
+        user.setTelefono(this.telefono);
+        user.setCorreoElectronico(this.correoElectronico);
+        user.setSalarioBase(this.salarioBase);
+        user.setFechaNacimiento(this.fechaNacimiento);
+        user.setDocumentoIdentidad(this.documentoIdentidad);
+        return user;
     }
 }
