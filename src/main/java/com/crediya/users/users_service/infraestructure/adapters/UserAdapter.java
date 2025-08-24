@@ -81,4 +81,10 @@ public class UserAdapter implements UserRepositoryPort {
     public Mono<Boolean> existsByCorreoElectronico(String correoElectronico) {
         return this.userRepository.existsByCorreoElectronico(correoElectronico);
     }
+
+    @Override
+    public Mono<Boolean> existsByDocumentoIdentidad(String documentoIdentidad) {
+        return this.userRepository.existsByDocumentoIdentidad(documentoIdentidad);
+
+    }
 }

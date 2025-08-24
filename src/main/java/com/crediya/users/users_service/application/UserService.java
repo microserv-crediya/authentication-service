@@ -50,10 +50,18 @@ public class UserService {
                                     log.warn("*****Intento de registro con correo duplicado: {}", usuario.getCorreoElectronico());
                                     return Mono.error(new IllegalArgumentException("El correo electrónico ya está registrado."));
                                 }
-                                // 3. Si el correo es único, guarda el usuario validado.
-                                log.info("*****Correo no duplicado. Guardando usuario.");
-                                return userRepositoryPort.save(validatedUser);
-                            });
+
+                                return userRepositoryPort.existsByDocumentoIdentidad(validatedUser.getDocumentoIdentidad())
+                                        .flatMap(documentoExists -> {
+                                            if (documentoExists) {
+                                                log.warn("*****Intento de registro con documento duplicado: {}", usuario.getDocumentoIdentidad());
+                                                return Mono.error(new IllegalArgumentException("El documento de identidad ya está registrado."));
+                                            }
+                                            // 3. Si el correo es único, guarda el usuario validado.
+                                            log.info("*****Correo no duplicado. Guardando usuario.");
+                                            return userRepositoryPort.save(validatedUser);
+                                        });
+                                });
                 })
                 .doOnError(e -> log.error("*****Error en el flujo de creación de usuario: {}", e.getMessage()));
     }
@@ -98,5 +106,9 @@ public class UserService {
         }
 
         return Mono.just(usuario); // Retorna un Mono vacío si todas las validaciones pasan
+    }
+
+    public Mono<Boolean> checkUserExistsByDocumento(String documentoIdentidad) {
+        return userRepositoryPort.existsByDocumentoIdentidad(documentoIdentidad);
     }
 }
