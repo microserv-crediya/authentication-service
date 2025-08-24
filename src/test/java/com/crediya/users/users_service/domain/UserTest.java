@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserTest {
 
     @Test
-    void crearUsuario_conDatosValidos_debeCrearInstanciaCorrecta() {
+    void createUser() {
         // Arrange
         UUID id = UUID.randomUUID();
         String nombres = "Jhon";
@@ -39,7 +39,7 @@ class UserTest {
     }
 
     @Test
-    void setters_debenActualizarLosValoresCorrectamente() {
+    void updateUser() {
         // Arrange
         User user = new User(UUID.randomUUID(), "Steve", "Xavi", "Calle la Matuna", "987654321", "steve.xavi@example.com", new BigDecimal("60000.00"), LocalDate.parse("1988-01-11"));
 
