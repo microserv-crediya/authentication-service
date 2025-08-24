@@ -35,7 +35,8 @@ class UserControllerTest {
                 "321234567",
                 "juan.sepulveda@example.com", // Correo que envías
                 new BigDecimal("1500000"),
-                LocalDate.parse("1987-10-04")
+                LocalDate.parse("1987-10-04"),
+                "999999999"
         );
 
         // Act & Assert
@@ -66,7 +67,8 @@ class UserControllerTest {
                 "987654321",
                 "cristina.soler", // Correo electrónico inválido
                 new BigDecimal("1000000"),
-                LocalDate.parse("2005-03-27")
+                LocalDate.parse("2005-03-27"),
+                "1010101010"
         );
 
         // Act & Assert: Realiza la petición y verifica que se retorne un 400 Bad Request.
@@ -91,7 +93,8 @@ class UserControllerTest {
                 "316456789",
                 "jhon.caraballo@example.com",
                 new BigDecimal("1500000"),
-                LocalDate.parse("2000-05-10")
+                LocalDate.parse("2000-05-10"),
+                "3333333333"
         );
 
         // Act & Assert: La petición debe fallar con 400 Bad Request
@@ -112,7 +115,8 @@ class UserControllerTest {
                 "3101234567",
                 "luis.perez@example.com",
                 new BigDecimal("20000000"), // Salario inválido (ej. <= 0)
-                LocalDate.parse("1995-12-10")
+                LocalDate.parse("1995-12-10"),
+                "2222222222"
         );
 
         // Act & Assert: La petición debe fallar con 400 Bad Request
@@ -133,7 +137,8 @@ class UserControllerTest {
                 "3123456789",
                 "carlos.gomez@example.com",
                 new BigDecimal("1000000"),
-                LocalDate.parse("1990-01-01")
+                LocalDate.parse("1990-01-01"),
+                "1111111111"
         );
 
         // Simula la creación y captura del ID

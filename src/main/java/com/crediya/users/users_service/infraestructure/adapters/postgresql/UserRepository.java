@@ -9,4 +9,6 @@ import java.util.UUID;
 
 public interface  UserRepository extends R2dbcRepository<UserEntity, UUID> {
     Mono<Boolean> existsByCorreoElectronico(String correoElectronico);
+
+    Mono<Boolean> existsByDocumentoIdentidad(String documentoIdentidad);
 }

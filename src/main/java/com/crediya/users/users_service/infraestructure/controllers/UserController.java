@@ -86,4 +86,20 @@ public class UserController {
         log.info("*****Petición DELETE para eliminar un usuario.");
         return userService.deleteById(id);
     }
+
+    @Operation(
+            summary = "Verifica la existencia de un usuario",
+            description = "Permite validar si un usuario existe en el sistema por su documento de identidad. Retorna 'true' si el usuario existe y 'false' si no.",
+            tags = { "Usuarios" }
+    )
+    @ApiResponse(responseCode = "200", description = "Validación exitosa")
+    @Parameter(
+            name = "documentoIdentidad",
+            description = "Documento de identidad del usuario a verificar",
+            example = "1234567890"
+    )
+    @GetMapping("/existe/{documentoIdentidad}")
+    public Mono<Boolean> checkUserExists(@PathVariable String documentoIdentidad) {
+        return userService.checkUserExistsByDocumento(documentoIdentidad);
+    }
 }

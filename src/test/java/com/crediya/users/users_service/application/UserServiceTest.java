@@ -33,7 +33,7 @@ class UserServiceTest {
     @Test
     void createUser_whenEmailNotExist() {
         // Arrange
-        User user = new User(null, "Jhon", "Caraballo", "Manga Calle Real", "316456789", "jhon.caraballo@example.com",  new BigDecimal("1500000"), LocalDate.parse("2000-05-10"));
+        User user = new User(null, "Jhon", "Caraballo", "Manga Calle Real", "316456789","jhon.caraballo@example.com",  new BigDecimal("1500000"),LocalDate.parse("2000-05-10"),"8888888888");
 
         // Simula que el correo electrónico no existe
         when(userRepositoryPort.existsByCorreoElectronico(user.getCorreoElectronico())).thenReturn(Mono.just(false));
@@ -49,7 +49,7 @@ class UserServiceTest {
     @Test
     void createUser_whenEmailExists() {
         // Arrange
-        User existingUser = new User(UUID.randomUUID(), "Yudis", "Cabarcas",  "AV Calle el manglar", "310654321", "yudis.cabarcas@example.com", new BigDecimal("1000000"), LocalDate.parse("2000-05-10"));
+        User existingUser = new User(UUID.randomUUID(), "Yudis", "Cabarcas",  "AV Calle el manglar", "310654321", "yudis.cabarcas@example.com", new BigDecimal("1000000"), LocalDate.parse("2000-05-10"),"7777777777");
 
         // Simula que el correo electrónico ya existe en la base de datos
         when(userRepositoryPort.existsByCorreoElectronico(existingUser.getCorreoElectronico())).thenReturn(Mono.just(true));
