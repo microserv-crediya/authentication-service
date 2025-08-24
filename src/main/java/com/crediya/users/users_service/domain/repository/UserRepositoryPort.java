@@ -9,4 +9,7 @@ public interface UserRepositoryPort extends GenericRepository <User, UUID> {
 
     //Metodo específico para el dominio de Usuario
     Mono<Boolean> existsByCorreoElectronico(String correoElectronico);
+
+    //Nuevo metodo para verificar si un usuario existe por su documento de identidad
+    Mono<Boolean> existsByDocumentoIdentidad(String documentoIdentidad);
 }
