@@ -31,7 +31,7 @@ class UserServiceTest {
     }
 
     @Test
-    void createUser_whenEmailDoesNotExist_shouldSaveUser() {
+    void createUser_whenEmailNotExist() {
         // Arrange
         User user = new User(null, "Jhon", "Caraballo", "Manga Calle Real", "316456789", "jhon.caraballo@example.com",  new BigDecimal("1500000"), LocalDate.parse("2000-05-10"));
 
@@ -47,7 +47,7 @@ class UserServiceTest {
     }
 
     @Test
-    void createUser_whenEmailAlreadyExists_shouldReturnError() {
+    void createUser_whenEmailExists() {
         // Arrange
         User existingUser = new User(UUID.randomUUID(), "Yudis", "Cabarcas",  "AV Calle el manglar", "310654321", "yudis.cabarcas@example.com", new BigDecimal("1000000"), LocalDate.parse("2000-05-10"));
 
