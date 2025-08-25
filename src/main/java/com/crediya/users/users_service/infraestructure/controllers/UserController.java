@@ -57,7 +57,7 @@ public class UserController {
     @ApiResponse(responseCode = "400", description = "Solicitud inválida, como correo duplicado o datos inválidos.")
     @Tag(name = "Gestión de Usuarios", description = "Operaciones relacionadas con la creación y gestión de usuarios.")
     public Mono<UserResponseDTO> createUser(@RequestBody UserRequestDTO dto) {
-        log.info("*****Petición POST para registrar un nuevo usuario recibida.");
+        log.info("*****Peticion POST para registrar un nuevo usuario recibida.");
         return userService.createUser(dto.toUser())
                 .map(UserResponseDTO::fromUser);
     }
