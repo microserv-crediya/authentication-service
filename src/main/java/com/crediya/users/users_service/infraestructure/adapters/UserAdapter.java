@@ -20,8 +20,6 @@ public class UserAdapter implements UserRepositoryPort {
     }
 
 
-
-
     @Override
     public Mono<User> findById(UUID id) {
         return userRepository.findById(id)
@@ -60,6 +58,7 @@ public class UserAdapter implements UserRepositoryPort {
         entity.setCorreoElectronico(usuario.getCorreoElectronico());
         entity.setSalarioBase(usuario.getSalarioBase());
         entity.setFechaNacimiento(usuario.getFechaNacimiento());
+        entity.setDocumentoIdentidad(usuario.getDocumentoIdentidad());
         return entity;
     }
 
@@ -73,6 +72,7 @@ public class UserAdapter implements UserRepositoryPort {
         usuario.setCorreoElectronico(entity.getCorreoElectronico());
         usuario.setSalarioBase(entity.getSalarioBase());
         usuario.setFechaNacimiento(entity.getFechaNacimiento());
+        usuario.setDocumentoIdentidad(entity.getDocumentoIdentidad());
         return usuario;
     }
 
@@ -85,6 +85,5 @@ public class UserAdapter implements UserRepositoryPort {
     @Override
     public Mono<Boolean> existsByDocumentoIdentidad(String documentoIdentidad) {
         return this.userRepository.existsByDocumentoIdentidad(documentoIdentidad);
-
     }
 }
