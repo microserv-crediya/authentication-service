@@ -60,4 +60,37 @@ class UserServiceTest {
                         throwable.getMessage().equals("El correo electrónico ya está registrado."))
                 .verify();
     }
+
+    private User createValidUser() {
+        return new User(
+                UUID.randomUUID(),
+                "Jhon", // Nombres actualizados
+                "Caraballo", // Apellidos actualizados
+                "Calle 123",
+                "3001234567",
+                "jhon.caraballo@email.com", // Correo actualizado
+                new BigDecimal("5000000"),
+                LocalDate.of(1990, 5, 15),
+                "1234567890"
+        );
+    }
+
+    @Test
+    void shouldRevertTransactionWhenSubsequentOperationFails() {
+        // Arrange
+        User user = createValidUser();
+
+        // 1. Simula el éxito al guardar el usuario
+        when(userRepositoryPort.save(any(User.class))).thenReturn(Mono.just(user));
+
+        // 2. Simula una operación que falla después de guardar (ej. la búsqueda)
+        when(userRepositoryPort.findById(any(UUID.class)))
+                .thenReturn(Mono.error(new RuntimeException("Error simulado en la segunda operación.")));
+
+        // Act & Assert
+        StepVerifier.create(userService.registerUserTransact(user))
+                .expectErrorMatches(throwable -> throwable instanceof RuntimeException &&
+                        throwable.getMessage().equals("Error simulado en la segunda operación."))
+                .verify();
+    }
 }
