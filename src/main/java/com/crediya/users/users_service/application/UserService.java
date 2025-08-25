@@ -41,7 +41,7 @@ public class UserService {
     public Mono<User> createUser(User usuario) {
         log.info("*****Iniciando el registro de un nuevo usuario con correo: {}", usuario.getCorreoElectronico());
 
-        // 1. Primero, valida el usuario.
+        //Primero, valida el usuario.
         return validateUser(usuario)
                 .flatMap(validatedUser -> {
                     // 2. Verifica si el correo ya existe.
@@ -51,25 +51,25 @@ public class UserService {
                                     log.warn("*****Intento de registro con correo duplicado: {}", usuario.getCorreoElectronico());
                                     return Mono.error(new IllegalArgumentException("El correo electrónico ya está registrado."));
                                 }
-                                // 3. Verifica el documento solo si no está vacío.
+                                //Verifica el documento solo si no está vacío.
                                 if (usuario.getDocumentoIdentidad() == null || usuario.getDocumentoIdentidad().isBlank()) {
                                     log.info("*****Documento de identidad no proporcionado. Continuando sin validación.");
                                     // Si está vacío, devuelve el usuario para que pase al siguiente flatMap
                                     return Mono.just(validatedUser);
                                 }
-                                // 4. Si el documento tiene un valor, verifica si ya existe.
+                                // Si el documento tiene un valor, verifica si ya existe.
                                 return userRepositoryPort.existsByDocumentoIdentidad(validatedUser.getDocumentoIdentidad())
                                         .flatMap(documentoExists -> {
                                             if (documentoExists) {
                                                 log.warn("*****Intento de registro con documento duplicado: {}", usuario.getDocumentoIdentidad());
                                                 return Mono.error(new IllegalArgumentException("El documento de identidad ya está registrado."));
                                             }
-                                            // Si el documento es único, devuelve el usuario.
+                                            //Si el documento es único, devuelve el usuario.
                                             return Mono.just(validatedUser);
                                         });
                             });
                 })
-                // 5. Finalmente, si todas las validaciones pasan, guarda el usuario.
+                // 5. Complete o Finalize
                 .flatMap(validatedUser -> {
                     log.info("*****Documento no duplicado. Guardando usuario.");
                     return userRepositoryPort.save(validatedUser);
@@ -121,6 +121,10 @@ public class UserService {
 
     public Mono<Boolean> checkUserExistsByDocumento(String documentoIdentidad) {
         return userRepositoryPort.existsByDocumentoIdentidad(documentoIdentidad);
+    }
+
+    public Mono<Boolean> checkUserExistsByEmail(String email) {
+        return userRepositoryPort.existsByCorreoElectronico(email);
     }
 
     public Mono<User> registerUserTransact(User user) {

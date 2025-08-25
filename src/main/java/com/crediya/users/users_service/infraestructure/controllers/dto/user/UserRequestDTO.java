@@ -16,7 +16,7 @@ public class UserRequestDTO {
     private LocalDate fechaNacimiento;
     private String documentoIdentidad;
 
-
+    public UserRequestDTO(){}
 
     public UserRequestDTO(String nombres, String apellidos, String direccion, String telefono, String correoElectronico, BigDecimal salarioBase, LocalDate fechaNacimiento, String documentoIdentidad) {
         this.nombres = nombres;

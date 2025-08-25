@@ -90,7 +90,7 @@ public class UserController {
     @Operation(
             summary = "Verifica la existencia de un usuario",
             description = "Permite validar si un usuario existe en el sistema por su documento de identidad. Retorna 'true' si el usuario existe y 'false' si no.",
-            tags = { "Usuarios" }
+            tags = { "Gestión de Usuarios" }
     )
     @ApiResponse(responseCode = "200", description = "Validación exitosa")
     @Parameter(
@@ -101,5 +101,12 @@ public class UserController {
     @GetMapping("/existe/{documentoIdentidad}")
     public Mono<Boolean> checkUserExists(@PathVariable String documentoIdentidad) {
         return userService.checkUserExistsByDocumento(documentoIdentidad);
+    }
+
+    @Operation(summary = "Obtener un usuario por Correo Electronico", description = "Busca y retorna la información de un usuario específico utilizando su identificador de Correo Electronico.")
+    @Tag(name = "Gestión de Usuarios", description = "Operaciones relacionadas con la creación y gestión de usuarios.")
+    @GetMapping("/email/{email}")
+    public Mono<Boolean> checkUserExistsByEmail(@PathVariable String email) {
+        return userService.checkUserExistsByEmail(email);
     }
 }
