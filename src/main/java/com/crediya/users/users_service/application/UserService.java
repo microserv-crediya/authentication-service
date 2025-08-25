@@ -69,7 +69,7 @@ public class UserService {
                                         });
                             });
                 })
-                // 5. Finalmente, si todas las validaciones pasan, guarda el usuario.
+                // 5. Complete o Finalize
                 .flatMap(validatedUser -> {
                     log.info("*****Documento no duplicado. Guardando usuario.");
                     return userRepositoryPort.save(validatedUser);
@@ -121,6 +121,10 @@ public class UserService {
 
     public Mono<Boolean> checkUserExistsByDocumento(String documentoIdentidad) {
         return userRepositoryPort.existsByDocumentoIdentidad(documentoIdentidad);
+    }
+
+    public Mono<Boolean> checkUserExistsByEmail(String email) {
+        return userRepositoryPort.existsByCorreoElectronico(email);
     }
 
     public Mono<User> registerUserTransact(User user) {
