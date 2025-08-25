@@ -3,7 +3,6 @@ package com.crediya.users.users_service.infraestructure.controllers;
 import com.crediya.users.users_service.application.UserService;
 import com.crediya.users.users_service.domain.model.User;
 import com.crediya.users.users_service.infraestructure.controllers.dto.user.UserRequestDTO;
-import com.crediya.users.users_service.infraestructure.controllers.dto.user.UserResponseDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,11 +18,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @WebFluxTest(UserController.class)

@@ -57,7 +57,7 @@ public class UserService {
                                     // Si está vacío, devuelve el usuario para que pase al siguiente flatMap
                                     return Mono.just(validatedUser);
                                 }
-                                // Si el documento tiene un valor, verifica si ya existe.
+                                //Si el documento tiene un valor, verifica si ya existe.
                                 return userRepositoryPort.existsByDocumentoIdentidad(validatedUser.getDocumentoIdentidad())
                                         .flatMap(documentoExists -> {
                                             if (documentoExists) {
@@ -69,7 +69,7 @@ public class UserService {
                                         });
                             });
                 })
-                // 5. Complete o Finalize
+                //Complete o Finalize
                 .flatMap(validatedUser -> {
                     log.info("*****Documento no duplicado. Guardando usuario.");
                     return userRepositoryPort.save(validatedUser);
@@ -101,17 +101,17 @@ public class UserService {
     //Metodo privado para agrupar todas las validaciones comunes
     private Mono<User> validateUser(User usuario) {
         log.debug("*****Validando usuario: {}", usuario.getCorreoElectronico());
-        //1. Validación de datos a nivel de dominio
+        //Validacin de datos a nivel de dominio
         if (!usuario.isValid()) {
             return Mono.error(new IllegalArgumentException("Datos de usuario inválidos, Los siguientes campos son obligatorios Nombres, Apellidos, Correo electronico y Salario base, ."));
         }
 
-        //2. Validación de formato de email
+        //Validacion de formato de email
         if (!EmailValidator.isValid(usuario.getCorreoElectronico())) {
             return Mono.error(new IllegalArgumentException("Formato de correo electrónico inválido."));
         }
 
-        //3. Validación de salario (regla de aplicación)
+        //Validacion de salario (regla de aplicación)
         if (usuario.getSalarioBase() == null || usuario.getSalarioBase().compareTo(new BigDecimal("0")) <= 0 || usuario.getSalarioBase().compareTo(new BigDecimal("1500000")) > 0) {
             return Mono.error(new IllegalArgumentException("El salario base debe ser un valor numérico entre 0 y 1.500.000."));
         }
