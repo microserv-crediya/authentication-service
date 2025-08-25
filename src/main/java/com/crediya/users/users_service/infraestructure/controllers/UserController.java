@@ -102,4 +102,9 @@ public class UserController {
     public Mono<Boolean> checkUserExists(@PathVariable String documentoIdentidad) {
         return userService.checkUserExistsByDocumento(documentoIdentidad);
     }
+
+    @GetMapping("/email/{email}")
+    public Mono<Boolean> checkUserExistsByEmail(@PathVariable String email) {
+        return userService.checkUserExistsByEmail(email);
+    }
 }
